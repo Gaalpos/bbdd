@@ -178,21 +178,40 @@ WHERE codREpresentante IN (102, 104, 109);
 
 /*
 18) Obtener un listado de todos los productos ordenados alfabéticamente por fabricante y después 
-de mayor a menor precio.
+de mayor a menor precio 
 */
+select *
+from productos
+order by idFabricante, precioCompra desc;
 
 /*
 19) Listar todos los empleados que lleven trabajando más de 25 años en la empresa.
 */
+/*Tres formas de obtener los años*/
+select nombre, fecContrato, round(datediff(curdate(), fecContrato)/365), /**/ year (curdate())-year(fecContrato), /**/
+year (curdate())- year(feccontrato)-if(right(fecContrato, 5) > right (curdate(),5), 1,0)  
+from empleados
+where datediff(curdate(), fecContrato)/365 >25;
 
 /*
 20) Listar todas las oficinas que no tengan marcado ningún objetivo.
 */
+select *
+from oficinas
+where objetivo is null or objetivo = 0;
 
 /*
 21) Obtener el nombre de todos los empleados cuyo salario acumulado hasta la fecha actual no han llegado a cubrir el objetivo que tenían, además se deberá calcular el importe que les falta.
 */
-
+/*select nombre, sueldo +if(comision, 0=
+/*
 /*
 22) Obtener el nombre del empleado, sueldo, comisión, sueldo bruto (sueldo + comisión), el importe de las retenciones tanto del IRPF como de la S.S., y el sueldo neto (sueldo bruto – las retenciones).
 */
+
+select nombre, sueldo, ifnull(comision,0), sueldo + ifnull(comision,0) as "Sueldo Bruto",
+sueldo + ifnull(comision,0)*retencionesIRPF "IRPF",
+(sueldo+ifnull(comision,0))*retencionesSS SS,
+(sueldo+ifnull(comision,0))-((sueldo+ifnull(comision,0))*retencionesIRPF)-
+((sueldo+ifnull(comision,0))*retencionesSS) as "Sueldo Neto"
+from Empleados;
