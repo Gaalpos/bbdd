@@ -1,36 +1,88 @@
 /*
 1) ¿Cuál es el sueldo medio y el sueldo total de todos los empleados?
 */
-
+select avg (sueldo), avg(sueldo+ ifnull(comision, 0)), sum(sueldo), sum(sueldo + ifnull(comision,0))
+from empleados;
 
 /*
 2) Hallar el importe medio de pedidos, el importe total de pedidos y el precio medio de venta.
 */
+select avg (cantidad * precioVenta), sum(cantidad*precioVenta), avg (precioVenta)
+from lineasPedido;
 
 
 /*
 3) Hallar el precio medio de los productos del fabricante ACI.
 */
+## la media de los productos vendidos
+select fabricante , avg (precioVenta)
+from lineaspedido
+where fabricante = "aci";
 
 
+select fabricante , avg (precioVenta)
+from lineaspedido
+where fabricante = "aci"
+group by fabricante;
+
+## media del precio de compra de ltodos los productos
+select fabricante , avg (precioVenta)
+from productos
+where fabricante = "aci"
+group by fabricante;
+
+##listar el precio de compra y venta de los productos del fabricante aci
+select idFabricante, format(avg (precioventa),2),format(avg(precioCompra),2)
+from lineaspedido join productos on idfabricante = fabricante and producto = idproducto
+where fabricante ="aci";
+
+select idFabricante, format(avg (precioventa),2),format(avg(ifnull(precioCompra,0)),2)
+from lineaspedido right join productos on idfabricante = fabricante and producto = idproducto
+where fabricante ="aci";
 /*
 4) Hallar el precio medio de los productos del fabricante ACI, BIC, QSA e IMM.
 */
-
-
+select fabricante , (precioVenta), format (avg(precioVenta ),2)
+from lineaspedido
+where fabricante in ("aci", "bic", "qsa", "imm")
+group by fabricante;
 
 /*
 5) Hallar el precio medio de los productos del fabricante ACI, BIC, QSA e IMM únicamente si el
-precio medio supera los 13 €.
+precio medio supera los 180 €.
 */
+select fabricante , (precioVenta), format (avg(precioVenta ),2)
+from lineaspedido
+where fabricante in ("aci", "bic", "qsa", "imm")
+group by fabricante
+having avg(precioVenta)>180;
 
 
 /*
 6) ¿Cuál es el importe total de los pedidos realizados por el empleado 'Vázquez Lopez, Jose Luis'?
 */
+select nombre, sum(cantidad * precioVenta)
+from empleados join pedidos on codRepresentante = codEmpleado
+join lineaspedido using (codPedido)
+where nombre = 'Vázquez Lopez, Jose Luis';
 
+select nombre, sum(cantidad * precioVenta)
+from empleados join (lineaspedido join pedidos  using (codPedido))
+on codRepresentante = codEmpleado
+where nombre = 'Vázquez Lopez, Jose Luis';
 
+## total vendido por cada empleado
+select sum(cantidad*precioVenta)
+from empleados join pedidos on codRepresentante=codEmpleado
+join lineaspedido using (codPedido)
+group by nombre;
 
+ ## total vendido por cada empleado  cada mes
+select sum(cantida*precioVenta), month (fechapedido)
+from empleados join pedidos on codRepresentante=codEmpleado
+join lineaspedido using (codPedido)
+group by nombre, month (fechapedio)
+order by nombre;
 /*
 7) Hallar en qué fecha se realizó el primer pedido (suponiendo que en la tabla de pedidos tenemos
 todos los pedidos realizados hasta la fecha).
