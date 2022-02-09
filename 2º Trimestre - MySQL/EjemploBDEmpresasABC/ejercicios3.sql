@@ -87,25 +87,46 @@ order by nombre;
 7) Hallar en qué fecha se realizó el primer pedido (suponiendo que en la tabla de pedidos tenemos
 todos los pedidos realizados hasta la fecha).
 */
+select fechaPedido
+from pedidos
+order by fechapedido
+limit 1;
 
+select min(fechaPedido)
+from pedidos;
 
 
 /*
 8) Hallar cuántas líneas de pedido hay de más de 5.000 €.
 */
+select count(precioVenta*cantidad), count(*), count(codPedido)
+from LineasPedido
+where cantidad*precioVenta > 5000;
 
 
 /*
 9) Listar cuántos empleados están asignados a cada oficina, indicar el número de oficina y cuántos
 hay asignados.
 */
+select Oficina, count(codEmpleado)
+from empleados
+group by oficina;
 
+select Oficina, count(codEmpleado)
+from empleados left join Oficinas on codOficina = oficina 
+group by oficina;
 
 /*
 10) Para cada empleado, obtener su número, nombre, e importe vendido por ese empleado a cada
 cliente indicando el número y nombre del cliente.
 */
-
+select codEmpleado, e.nombre as vendedor, sum(cantidad*precioVenta),
+codCliente , c.nombre as cliente
+from empleados e join pedidos on codRepresentante = codEmpleado
+join clientes c using (codCliente) 
+join lineaspedido using (codPedido)
+group by codEmpleado, codCliente
+order by e.nombre;
 
 
 
@@ -113,7 +134,12 @@ cliente indicando el número y nombre del cliente.
 11) Para cada empleado cuyos pedidos suman más de 100.000 €, hallar su importe medio de
 pedidos. En el resultado indicar el número de empleado y su importe medio de pedidos.
 */
-
+select nombre, format(avg(cantidad*precioVenta),2) , sum(cantidad*precioVEnta)
+from empleados join pedidos on codEmpleado= codRepresentante
+join lineaspedido using (codPedido)
+where cantidad * precio > 100000
+group by nombre
+having sum(cantidad*precioVenta) > 300000;
 
 
 

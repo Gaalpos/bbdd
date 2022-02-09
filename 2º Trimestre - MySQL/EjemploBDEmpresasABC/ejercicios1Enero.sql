@@ -121,8 +121,6 @@ from lineaspedido join pedidos using(codpedido)
  order by importe desc
  limit 5;
 
-
-
 /*
 10) Listar las oficinas que no tienen director.
 */
