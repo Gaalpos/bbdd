@@ -137,7 +137,7 @@ pedidos. En el resultado indicar el número de empleado y su importe medio de pe
 select nombre, format(avg(cantidad*precioVenta),2) , sum(cantidad*precioVEnta)
 from empleados join pedidos on codEmpleado= codRepresentante
 join lineaspedido using (codPedido)
-where cantidad * precio > 100000
+where cantidad * precioVenta > 100000
 group by nombre
 having sum(cantidad*precioVenta) > 300000;
 
@@ -148,9 +148,12 @@ having sum(cantidad*precioVenta) > 300000;
 productos cuya cantidad total pedida sea superior al 75% del stock; y ordenado por cantidad
 total pedida.
 */
-
-
-
+select descripcion, precioCompra, sum(cantidad+Existencias)
+from productos join lineaspedido on
+idfabricante = fabricante and idProducto = producto
+group by descripcion, existencias, precioCompra
+having sum(cantidad+Existencias)>0.75*existencias
+order by sum(cantidad+ existencias);
 /*
 13) Listar las pedidos superiores a 10.000 €, incluyendo el nombre del empleado que tomó el pedido
 y el nombre del cliente que lo solicitó.
@@ -161,8 +164,12 @@ y el nombre del cliente que lo solicitó.
 14) Listar los 5 pedidos con mayor importe indicando el nombre del cliente del producto y del
 representante.
 */
-
-
+select nombre, codPedido, sum(cantidad*precioVenta)
+from lineaspedido join pedidos using(codPedido)
+join clientes using(codCliente)
+group by codPedido, nombre
+order by sum(cantidad*PrecioVenta) desc 
+limit 5;
 
 
 /*
