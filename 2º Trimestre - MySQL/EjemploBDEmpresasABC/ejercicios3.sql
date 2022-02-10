@@ -158,7 +158,13 @@ order by sum(cantidad+ existencias);
 13) Listar las pedidos superiores a 10.000 €, incluyendo el nombre del empleado que tomó el pedido
 y el nombre del cliente que lo solicitó.
 */
-
+select codPedido, empleados.nombre as vendedor, clientes.nombre as cliente,
+sum(cantidad*precioVenta) as total
+from empleados join pedidos on pedidos.codRepresentante = codEmpleado
+join clientes using (codcliente)
+join lineaspedido using (codpedido)
+group by codPedido
+having total > 10000;
 
 /*
 14) Listar los 5 pedidos con mayor importe indicando el nombre del cliente del producto y del
@@ -206,9 +212,13 @@ tenían, además se deberá listar también cual es la cantidad y el porcentaje 
 /*
 20) Calcular el total vendido cada mes
 */
+select fechapedido, cantidad*precioVenta
+from pedidos join lineaspedido using (codpedido)
+group by month(fechapedido) ;
 
-
-
+select year(fechapedido) ,month(fechapedido), cantidad*precioVenta
+from pedidos join lineaspedido using (codpedido)
+group by month(fechapedido), year(fechapedido);
 /*
 21) Seleccionar para cada fabricante el precio medio de sus productos
 */
@@ -218,7 +228,11 @@ tenían, además se deberá listar también cual es la cantidad y el porcentaje 
 /*
 22) Indicar cuál es el producto del que se han vendidos más unidades,
 */
-
+select idfabricante , idproducto, descripcion, sum(cantidad)
+from productos join lineaspedido on idFabricante = fabricante and idProducto = producto
+group by idFabricante, idProducto, descripcion
+order by sum(cantidad) desc
+limit 1;
 
 
 
@@ -239,13 +253,25 @@ vendido y el total comprado.
 25) Obtener las ventas mensuales de los empleados. Hay que diseñar una consulta sumaria
 calculando la suma de los importes de los pedidos agrupando por empleado y mes de la venta.
 */
+select nombre, month(fechaPedido), sum(cantidad*precioVenta) 
+from empleados join pedidos on codRepresentante = codEmpleado
+join lineaspedido using (codpedido)
+group by nombre, month(fechapedido)
+having sum(cantidad*precioVenta) > 20000
+order by nombre;
 
 
 
 /*
 26) Igual que la anterior pero sólo nos interesan los meses de febrero, mayo y diciembre.
 */
-
+select nombre, month(fechaPedido), sum(cantidad*precioVenta) 
+from empleados join pedidos on codRepresentante = codEmpleado
+join lineaspedido using (codpedido)
+where month(fechaPedido) in (2,3,12)
+group by nombre, month(fechapedido)
+having sum(cantidad*precioVenta) > 20000
+order by nombre;
 
 
 /*
