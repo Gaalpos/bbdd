@@ -48,9 +48,21 @@ alter table cuenta add column fechaCreac date not null;
 alter table sucursal modify column activo  double not null;
 
 /*
+alter table AbrirCuentaClienteSucursal drop foreign key numCuenta; 
+alter table AbrirCuentaClienteSucursal drop foreign key numSucursal; 
+alter table AbrirCuentaClienteSucursal drop primary key;
+*/
+/*
 alter table AbrirCuentaClienteSucursal drop foreign key  AbrirCuentaClienteSucursal_ibfk_1;
  alter table AbrirCuentaClienteSucursal add column id int primary key auto_increment;
 */
+
+
+
+
+
+
+
 
 
 ## ESTE ARCHIVO ES ORIGINAL DE GABRIEL PAZOS ALONSO

@@ -54,8 +54,12 @@ codCurso int,
 idEdicion int,
 codEmpleado int,
 primary key (codCurso,idEdicion,codEmpleado),
-foreign key (codCurso) references Edicion (codCurso),
-foreign key (idEdicion) references Edicion (idEdicion),
+foreign key (codCurso,idEdicion) references Edicion (codCurso,idEdicion),
 foreign key (codEmpleado) references Empleados (codEmpleado),
 foreign key (codEmpleado) references Capacitados (codEmpleado)
 );
+
+
+
+## ESTE ARCHIVO ES ORIGINAL DE GABRIEL PAZOS ALONSO
+## SI LEE ESTO ES POSIBLE QUE DICHO ARCHIVO SEA UNA MODIFICACIÓN O COPIA DEL ORIGINAL
