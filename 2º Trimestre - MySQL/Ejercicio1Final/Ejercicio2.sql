@@ -61,5 +61,11 @@ foreign key (codEmpleado) references Capacitados (codEmpleado)
 
 
 
+
+
+
+
+
+
 ## ESTE ARCHIVO ES ORIGINAL DE GABRIEL PAZOS ALONSO
 ## SI LEE ESTO ES POSIBLE QUE DICHO ARCHIVO SEA UNA MODIFICACIÓN O COPIA DEL ORIGINAL
