@@ -133,3 +133,77 @@ end $
 delimiter ;
 
 call prEmpleadoAnho(1990);
+call prEmpleadoAnho(1980);
+
+
+
+/*
+14 Crear un procedimiento pr ClientesMasPedidos que muestre el cliente
+que más pedidos ha hecho en un mes que se introduce como parametro
+*/
+select nombre, count(codPedido)
+from Clientes join pedidos using(codCliente)
+group by nombre;
+
+select nombre, count(codPedido)
+from Clientes join pedidos using(codCliente)
+where month(fechaPedido) =3
+group by nombre
+order by count(codPedido) desc
+limit 1;
+
+delimiter $
+drop procedure if exists PrClientesMasPedidos$
+create procedure PrClientesMasPedidos (in mes int)
+begin
+	select nombre, count(codPedido)
+	from Clientes join pedidos using(codCliente)
+	where month(fechaPedido) =mes
+	group by nombre
+	order by count(codPedido) desc
+	limit 1;
+end $
+delimiter ;
+
+call PrClientesMasPedidos(1);
+
+/*
+15- Por la crisis económica se tiene que proceder a bajar el sueldo a todos los empleados en
+un 5%. Implementar un procedimiento, PrBajarSueldo01, que simule como se haría esa
+disminución del sueldo.
+*/
+update empleados set sueldo = sueldo - sueldo*5/100;
+
+delimiter $
+drop procedure if exists PrBajarSueldos;
+create procedure PrBajarSueldos (in porcentaje int)
+begin
+	declare contador int default 1;
+    while contador < 3 do
+	update empleados set sueldo = sueldo - sueldo*porcentajes/100;
+	select * from empleados;
+    set contador = contador +1;
+    end while;
+end $
+delimiter ;
+
+call PrBajarSueldos(2);
+
+/*
+16 Crear un procedimiento, prBajarSueldoEscala01, que a cada empleado le baje el sueldo
+según el grupo al que pertenezca. Gerente: 8%, Representante: 5%, Administrativo: 3% y
+al resto el 10%. (Se utilizarán cursores)
+*/
+update empleados set sueldo = sueldo -sueldo*8/100 where categoria = "gerente";
+
+delimiter $
+drop procedure prBajarSueldoEscala01 $
+create procedure prBajarSueldoEscala01(porG int, porR int, porA int,porC int)
+begin
+	update empleados set sueldo = sueldo -sueldo*porG/100 where categoria = "gerente";
+    update empleados set sueldo = sueldo -sueldo*porR/100 where categoria = "Representante";
+    update empleados set sueldo = sueldo -sueldo*porA/100 where categoria = "Administrativo";
+    update empleados set sueldo = sueldo -sueldo*porC/100 where categoria not in ("Gerente","Representante", "Administrativo");
+end $
+delimiter $
+	
