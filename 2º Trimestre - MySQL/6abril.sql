@@ -6,9 +6,11 @@ drop procedure prCursor01 $
 create procedure prCursor01()
 begin
  declare nb varchar(50);
+  declare lc double;
  declare lc double;
- declare CuClientes cursor for select nombre, limiteCredito from clientes;
+declare CuClientes cursor for select nombre, limiteCredito from clientes;
  open CuClientes;
+ fetch CuClientes into nb, lc;
  fetch CuClientes into nb, lc;
  close CuClientes;
 end$
