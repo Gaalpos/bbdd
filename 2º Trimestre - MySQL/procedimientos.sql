@@ -52,7 +52,7 @@ select concat("Antes del camnio", num1," ", num2);
 set aux = num1;
 set num1=num2;
 set num2=aux;
-select concat ("Despues del cambio", num1," ", num2);
+select concat("Despues del cambio", num1," ", num2);
 end $
 delimiter ;
 
@@ -60,3 +60,5 @@ set @var1 = 78;
 set @var2=122;
 
 select @var1, @var2;
+
+call prIntercambio (@var1, @var2);
