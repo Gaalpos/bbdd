@@ -10,6 +10,8 @@ alter database aaaPrimera default collate latin1_bin;
 
 alter database aaaPrimera default charset latin1;
 
+use aaaprimera;
+
 create table if not exists Alumnos(
 dni char(9),
 nombre varchar(50),
@@ -71,5 +73,45 @@ alter table alumnos add email varchar (50) first;
 alter table alumnos add telefono int not null after direccion;
 
 #añadir un indice para la columna email
+
+alter table alumnos add index (email);
+
+#añadir un indice para las columnas ape1 y ape2 conjuntamente
+alter table alumnos add index indApe ( ape1,ape2);
+
+#añadir la clave para la columna dni
+Alter table alumnos add primary key (dni);
+
+#eliminar la columna telefono
+alter table alumnos drop telefono;
+alter table alumnos drop primary key;
+alter table alumnos drop index indApe;
+
+# alter tabla nombreTabla alter...
+# alter table nombreTabla  change...
+# alter table nombreTabla  modify...
+
+#añadir a la columna nota un valor por defecto de 5
+alter table alumnos alter nota set default 5;
+
+#eliminar de la columna nota el valor por defecto
+alter table alumnos alter nota drop default;
+
+# cmabiar el tipo de dato de la columna nombre a char(20)
+alter table alumnos change nombre nombre char(20) not null first;
+alter table alumnos change nombre nombre1 char(20) not null;
+
+#cambiar el tipo de dato de la columna email a char(30)
+alter table alumnos modify nombre char(30) unique after ape2;
+
+# cambiar el nombre de la tabla alumnos por personas
+alter table alumnos rename personas;
+
+# aeliminar una tabla
+# drop table nombreTabla;
+# drop table if exists modulos2;
+
+drop index personas (nbUK);
+
 
 
