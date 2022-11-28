@@ -97,22 +97,94 @@ order by importe limit 5;
 
 
 #9) Listar toda la información de los pedidos de marzo del último año.
-
+select * 
+from pedidos 
+where month(fechapedido) = 3 and year(fechaPedido) = year (curdate() -1);
 
 
 #10) Listar los pedidos del mes pasado.
+select * 
+from pedidos 
+where month(fechapedido) = month(curdate()-1) and year(fechaPedido) = year (curdate());
+
+
 #11) Listar los números de los empleados que tienen una oficina asignada.
+select codEmpleado, oficina
+from empleados
+where oficina is not null;
+
 #12) Listar los nombres de los empleados que no tienen asignada una oficina.
+select codEmpleado
+from empleados
+where oficina is null;
+
 #13) Listar los datos de las oficinas de las regiones del Galicia y Euzkadi (tienen que aparecer primero las
 #del Euzkadi y después las de Galicia).
+select *
+from Oficinas
+where region = 'Galicia' or region = 'Euzkadi'
+order by region desc;
+
+select *
+from oficinas
+where region in ( 'Galicia','Euzkadi')
+order by region desc;
+
 #14) .Listar los clientes de nombre Julia.
+select *
+from Clientees
+where nombre like ' Julia %';
+
 #15) Listar los productos cuyo idproducto acabe en x.
+select *
+from productos
+where idproducto like '%x';
+
+
 #16) Obtener toda la información de los empleados cuya edad este comprendida entre 40 y 60 años.
+select codEmpleado, nombre, fecNacimiento, year(curdate())- year(FecNacimiento) as Edad
+from empleados
+where year(curdate())-year(FecNacimiento) between 40 and 60;
+
+select codEmpleado, nombre, fecNacimiento, year(curdate())- year(FecNacimiento) as Edad
+from empleados
+where year(curdate())-year(FecNacimiento) >= 40 and
+ year(curdate())-year(FecNacimiento) <=60 ;
+ 
+ ## edad exacta
+select codEmpleado, nombre, fecNacimiento, year(curdate()) - year(FecNacimiento) -
+if (right(fecnacimiento, 5) > right(curdate(), 5), 1, 0) as Edad
+from empleados
+where  year(curdate()) - year(FecNacimiento) -
+if (right(fecnacimiento, 5) > right(curdate(), 5), 1, 0) between 40 and 60;
+
+
 #17) Obtener todos los clientes cuyos representantes tengan los códigos 102, 104 y 109.
+select *
+from Clientes
+where codRepresentante in (102,104,109);
+
+select*
+from Clientes
+where codRepresentante = 102 or  codRepresentante = 104 or codRepresentante = 109;
+
 #18) Obtener un listado de todos los productos ordenados alfabéticamente por fabricante y después de
 #mayor a menor precio.
+select *
+from productos
+order by idfabricante  , precioCompra desc;
+
 #19) Listar todos los empleados que lleven trabajando más de 25 años en la empresa.
+select codEmpleado, nombre, fecContrato,
+year(curdate())-year(fecContrato) as 'Años trabajados'
+from empleados
+where year(curdate())-year(fecContrato) > 25;
+
 #20) Listar todas las oficinas que no tengan marcado ningún objetivo.
+select *
+from oficinas
+where objetivo is null;
+
 #21) Obtener el nombre de todos los empleados cuyo salario acumulado hasta la fecha actual no han
 #llegado a cubrir el objetivo que tenían, además se deberá calcular el importe que les falta.
 
