@@ -188,5 +188,47 @@ where objetivo is null;
 #21) Obtener el nombre de todos los empleados cuyo salario acumulado hasta la fecha actual no han
 #llegado a cubrir el objetivo que tenían, además se deberá calcular el importe que les falta.
 
+select adddate(curdate(), interval  5 day), adddate(curdate(), interval 5 month),
+adddate(curdate(), interval 5 year);
+
+select nombre, sueldo, sueldo * month(curdate()) as 'Sueldo acumulado', objetivo 
+from empleados
+where sueldo * month(curdate()) < objetivo ;
+
+# sueldo acumulado desde que trabaja en la empresa
+select codEmpleado, nombre, sueldo, (year(curdate())-year(FecContrato)-1)*12* sueldo + 
+sueldo * month(curdate())  as ' sueldo acumulado'
+from empleados
+where (year(curdate())-year(FecContrato)-1)*12*Sueldo + 
+sueldo * month(curdate()) < objetivo;
+
+select codEmpleado, nombre, sueldo, if( (year(fecContrato) <> year(curdate())),
+(year(curdate())-year(fecContrato)-1)*12*sueldo + 
+sueldo * month (curdate()), sueldo * month(curdate())) as ' Sueldo acumulado'
+from empleados 
+where if( (year(fecContrato) <> year(curdate())),
+(year(curdate())-year(fecContrato)-1)*12*sueldo + 
+sueldo * month (curdate()), sueldo * month(curdate())) < objetivo;
+
+
+
 #22) Obtener el nombre del empleado, sueldo, comisión, sueldo bruto (sueldo + comisión), el importe
 #de las retenciones tanto del IRPF como de la S.S., y el sueldo neto (sueldo bruto – las retenciones).
+select 25 + null;
+select ifnull(25,0), ifnull(null, 0);
+
+
+select nombre, sueldo, comision, sueldo + comision as SBRuto, 
+(sueldo + comision ) * retencionesIRPF as IRPF,
+(sueldo + comision ) * retencionesSS as SS,
+(sueldo + comision ) - (sueldo + comision ) * retencionesIRPF - (sueldo + comision ) * retencionesSS
+from empleados;
+
+select nombre, sueldo, ifnull(comision, 0) as comision,
+format (sueldo + ifnull(comision, 0),2) as SB,
+format((sueldo + ifnull(comision, 0)) * retencionesIRPF,2) as IRPF,
+format ((sueldo + ifnull(comision, 0)) * retencionesSS, 2) as SS,
+format ((sueldo + ifnull(comision,0)) -
+((sueldo + ifnull(comision,0)) * retencionesIRPF) -
+((sueldo + ifnull(comision, 0)) * retencionesSS),2) as neto
+from empleados;
