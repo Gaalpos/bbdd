@@ -132,7 +132,7 @@ order by region desc;
 
 #14) .Listar los clientes de nombre Julia.
 select *
-from Clientees
+from Clientes
 where nombre like ' Julia %';
 
 #15) Listar los productos cuyo idproducto acabe en x.
