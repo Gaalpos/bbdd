@@ -126,7 +126,14 @@ where codDirector is null;
 
 #11) Seleccionar los clientes que no han realizado ningún pedido.
 
+select *
+from Clientes join Pedidos using (codCliente)
+where codPedido is null;
+
 #12) Seleccionar los productos que no han sido vendidos.
+select Productos.*
+from Productos left join lineaspedido on idFabricante = fabricante and idProducto = producto
+where codPedido is null;
 
 #13) Seleccionar los representantes que no han realizado ninguna venta, indicando el nombre del
 #empleado.
