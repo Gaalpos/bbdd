@@ -86,7 +86,9 @@ order by Importe;
 
 #7) Listar los empleados con un sueldo superior al de su jefe; para cada empleado sacar sus datos y el
 #número, nombre y sueldo de su jefe.
-
+select e.CodEmpleado, e.nombre, e.sueldo, jefes.CodEmpleado, jefes.nombre, jefes.sueldo
+from Empleados e join Empleados jefes on jefes.codEmpleado = e.codJefe
+where e.sueldo > jefes.sueldo;
 
 #8) Listar los códigos y nombre de los empleados que tienen una línea de pedido superior a 5.000 € o
 #que tengan un objetivo inferior a 200.000 €. (El empleado deberá mostrarse una vez)
