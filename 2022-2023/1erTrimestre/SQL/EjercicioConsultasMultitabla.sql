@@ -92,12 +92,37 @@ where e.sueldo > jefes.sueldo;
 
 #8) Listar los códigos y nombre de los empleados que tienen una línea de pedido superior a 5.000 € o
 #que tengan un objetivo inferior a 200.000 €. (El empleado deberá mostrarse una vez)
+select distinct codEmpleado, nombre, objetivo, cantidad * precioVenta as Importe
+from lineaspedido l join Pedidos p using (codPedido)
+	join Empleados on CodRepresentante = codEmpleado
+where objetivo > 200000 && cantidad * precioVenta > 5000;
 
 
 #9) Listar las 5 líneas de pedido con mayor importe indicando el nombre del cliente del producto y
 #del representante.
 
+select fabricante, producto, descripcion, cantidad * precioVenta as importe, e.nombre as comercial, c.nombre as Cliente
+from   Productos join lineaspedido on idFabricante = fabricante and idProducto = producto
+	join Pedidos p using (codPedido)
+    join Clientes c using (codCliente)
+    join Empleados e on p.codRepresentante = codEmpleado
+order by importe desc limit 5;
+
+select fabricante, producto, descripcion, cantidad * precioVenta as importe, e.nombre as comercial, c.nombre as Cliente
+from Pedidos p, LineasPedido l, Productos, Clientes c, empleados e
+where p.codPedido = l.codPedido and p.codCliente = c.codCliente
+	and p.codRepresentante = e.codEmpleado
+    and idfabricante = fabricante and idProducto = producto
+order by importe desc limit 5;
+
 #10) Listar las oficinas que no tienen director.
+select o.*,codDirector
+from oficinas o left join directores d using (codOficina)
+where codDirector is null;
+
+select o.*,codDirector
+from oficinas o right join directores d using (codOficina)
+where codDirector is null;
 
 #11) Seleccionar los clientes que no han realizado ningún pedido.
 
