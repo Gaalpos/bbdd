@@ -121,7 +121,7 @@ from oficinas o left join directores d using (codOficina)
 where codDirector is null;
 
 select o.*,codDirector
-from oficinas o right join directores d using (codOficina)
+from directores d right join oficinas o using (codOficina)
 where codDirector is null;
 
 #11) Seleccionar los clientes que no han realizado ningún pedido.
