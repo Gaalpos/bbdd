@@ -80,7 +80,8 @@ where cantidad * precioVenta > 150 && p.codPedido = l.codPedido
 	&& p.codCliente = c.codCliente && p.codRepresentante = e.codEmpleado
 order by Importe;
 
-#6) Hallar los empleados que realizaron su primer pedido el mismo día en que fueron contratados.
+
+## 6) Hallar los empleados que realizaron su primer pedido el mismo día en que fueron contratados.
 
 
 #7) Listar los empleados con un sueldo superior al de su jefe; para cada empleado sacar sus datos y el
