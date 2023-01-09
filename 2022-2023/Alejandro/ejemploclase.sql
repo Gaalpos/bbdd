@@ -309,11 +309,38 @@ WHERE objetivo !=0;
 
 #21) Obtener el nombre de todos los empleados cuyo salario acumulado hasta la fecha actual no han
 #llegado a cubrir el objetivo que tenían, además se deberá calcular el importe que les falta.
+SELECT ADDDATE(CURDATE(), INTERVAL 5 DAY),  ADDDATE(CURDATE(), INTERVAL 5 MONTH),
+ ADDDATE(CURDATE(), INTERVAL 5 YEAR);
+ 
+ 
+ #sueldo anual
+ SELECT nombre, sueldo, sueldo* MONTH(CURDATE()), objetivo
+ FROM Empleados
+ WHERE sueldo* MONTH(CURDATE()) < objetivo;
+ 
+ # sueldo acumulado desde su llegada a la empresa
+ SELECT nombre, sueldo, (YEAR(CURDATE())- YEAR(fecContrato)-1)*12*sueldo + sueldo*MONTH(CURDATE()) AS 'Sueldo Acumulado'
+ FROM Empleados
+ WHERE (YEAR(CURDATE())- YEAR(fecContrato)-1)*12*sueldo + sueldo*MONTH(CURDATE()) < objetivo AND (YEAR(CURDATE())- YEAR(fecContrato)-1)*12*sueldo + sueldo*MONTH(CURDATE())>0 ;
+
+
 
 #22) Obtener el nombre del empleado, sueldo, comisión, sueldo bruto (sueldo + comisión), el importe
 #de las retenciones tanto del IRPF como de la S.S., y el sueldo neto (sueldo bruto – las retenciones).
 
+SELECT nombre, sueldo, comision, sueldo+comision AS 'Sueldo Bruto', (sueldo + comision) * retencionesIRPF AS IRPF, (sueldo + comision) * retencionesSS AS SS,
+(sueldo+ comision) - (sueldo + comision) * retencionesIRPF- (sueldo + comision) * retencionesSS
+FROM empleados;
 
+
+SELECT nombre, sueldo, IFNULL(comision,0) AS Comision,
+FORMAT(sueldo+ IFNULL(comision,0),2) AS SB,
+FORMAT((sueldo+ IFNULL(comision,0))* retencionesIRPF,2) AS SB,
+FORMAT((sueldo+ IFNULL(comision,0))* retencionesSS,2) AS SS,
+FORMAT((sueldo+ IFNULL(comision,0))-
+((sueldo+IFNULL(comision,0))* retencionesIRPF)-
+((sueldo+IFNULL(comision,0))* retencionesSS),2) AS SNeto
+FROM Empleados;
 
 
 
