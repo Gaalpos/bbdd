@@ -3,12 +3,12 @@
 ## la ciudad y las ventas de la oficina
 ## JOIN
 
-SELECT codEmpleado, nombre, oficina, cofoicina, ciuad, ventas
+SELECT codEmpleado, nombre, oficina, codOficina, ciudad, ventas
 FROM Empleados JOIN oficinas ON oficinas = codoficina;
 
 ## producto cartesiano
 
-SELECT codEmpleado, nombre, oficina, cofoicina, ciuad, ventas
+SELECT codEmpleado, nombre, oficina, codOficina, ciudad, ventas
 FROM Empleados, Oficinas
 WHERE oficina = codOficina;
 
@@ -101,15 +101,38 @@ ORDER BY categoría;
 #1) Listar las oficinas de Galicia indicando para cada una de ellas su número, ciudad, códigos y
 #nombres de sus empleados. Hacer una versión en la que aparecen sólo las que tienen empleados,
 #y hacer otra en las que aparezcan las oficinas de Galicia que no tienen empleados.
+
+select e.nombre, e.oficina
+from empleados e
+where e.oficina in(select oficina from oficina o where region='Galicia');
+
+select o.ciudad, count(e.CodEmpleado) as "NumEmpleados"
+from empleados e Right Join oficinas o ON e.oficina=o.codOficina
+where o.region ='Galicia' 
+group by o.codOficina;
+
 #2) Listar los pedidos mostrando su número, fecha del pedido, nombre del cliente, y el límite de
 #crédito del cliente correspondiente (todos los pedidos tienen cliente y representante).
+select p.codPedido, p.fechaPedido,c.nombre ,c.limite,c.limiteCredito
+from clientes c join pedidos p on c.codCliente=p.codCliente;
+
+
+
+
+
 #3) Listar los datos de cada uno de los empleados, la ciudad y región en donde trabaja.
+
+select e.nombre,fecNacimiento,sueldo,categoria,fecContrato,o.region,o.ciudad
+from empleados e join oficinas o on e.oficina=o.codOficina;
+
+
+
 #4) Listar las oficinas con objetivo superior a 3.500€ indicando para cada una de ellas el nombre de
 #su director.
-SELECT codOficina,ciudad, region, oficinas.objetivo, codEmpleado, codDirector,nombre
-FROM Oficinas JOIN Directores USING (codOficina)
-JOIN Empleados ON codEmpleado= codDirector
-WHERE oficinas.objetivo > 3500;	
+SELECT o.codOficina,o.objetivo,o.ciudad,e.nombre
+FROM Oficinas o JOIN Directores d USING (codOficina)
+JOIN Empleados e ON codEmpleado= codDirector
+WHERE o.objetivo > 3500;	
 
 
 
@@ -131,8 +154,17 @@ WHERE cantidad* precioVenta >150 && p.codPedido=l.codPedido
 ORDER BY Importe;
 
 
+select producto,count(*),sum(cantidad*precioVenta) total
+ from lineaspedido
+ group by producto
+ having total>5000
+
+
 
 #6) Hallar los empleados que realizaron su primer pedido el mismo día en que fueron contratados.
+select *
+from empleados e
+where e.fecContrato<=(SELECT MIN(fechaPedido) from pedidos); 
 
 
 
@@ -140,7 +172,7 @@ ORDER BY Importe;
 #7) Listar los empleados con un sueldo superior al de su jefe; para cada empleado sacar sus datos y el
 #número, nombre y sueldo de su jefe.
 
-SELECT e.codEmpleado, e.nombre, e.sueldo, jefes.codEmpleado, jefes.nombre, jefes.sueldo
+SELECT e.codEmpleado, e.nombre, e.sueldo,e.codJefe, jefes.codEmpleado, jefes.nombre, jefes.sueldo
 FROM Empleados e JOIN Empleados jefes ON jefes.codEmpleado= e.codJefe
 WHERE e.sueldo > jefes.sueldo;
 
@@ -152,7 +184,8 @@ WHERE e.sueldo > jefes.sueldo;
 SELECT DISTINCT codEmpleado, nombre, objetivo, cantidad* precioVenta as Importe
 FROM LineasPedido l JOIN Pedidos p USING (codPedido)
 JOIN Empleados ON codRepresentante= codEmpleado
-WHERE objetivo > 200000 AND cantidad * precioVenta >5000;
+WHERE objetivo > 200000 AND cantidad * precioVenta >5000 
+group by codRepresentante;
 
 
 #9) Listar las 5 líneas de pedido con mayor importe indicando el nombre del cliente del producto y
