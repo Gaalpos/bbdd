@@ -30,4 +30,27 @@ WHERE producto=410001;
 SELECT producto,COUNT(*), SUM(cantidad*precioVenta) TOTAL
 FROM lineaspedido
 GROUP BY proucto
-HAVING TOTAL>5000
+HAVING TOTAL>5000;
+
+## siete ejercicio de clase
+SELECT e.codEmpleado, e.nombre, e.sueldo, e.codJefe, j.codEmpleado, j.sueldo
+FROM empleados e JOIN empleados j ON e.codJefe=j.codEmpleado
+WHERE j.sueldo<e.sueldo;
+
+##ocho
+SELECT DISTINCT (codrepresentante),nombre, codPedido, numLinea, (cantidad*precioVenta)
+FROM lineaspedido JOIN pedidos USING (codPedido) JOIN empleados ON codRepresentante=codEmpleado
+WHERE (cantidad*precioVenta)>5000 OR objetivo<200000
+GROUP BY codrepresentante
+ORDER BY 'pedidos','codRepresentante' ASC;
+
+##ocho 2.0
+SELECT *
+FROM empleados e
+WHERE fecContrato = (SELECT MIN (fechaPedido) FROM pedidos 
+WHERE e.codEmpleado=codrepresentante);
+
+## ocho ejercicio clase
+SELECT *
+FROM lienaspedido
+WHERE (cantidad*precioVenta)>5000
