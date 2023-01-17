@@ -12,7 +12,7 @@ FROM oficinas o JOIN Directores d USING(codOficina) JOIN empleados e ON  d.codDi
 WHERE o.objetivo>3500;
 
 ##cuatro
-SELECT e.nombre AS Pedido, e.nombre AS "Nombre empleado", c.nombre AS "Nombre cliente", (lp.cantidad*lp.precioVenta) AS "Total línea"
+SELECT e.noDniDnimbre AS Pedido, e.nombre AS "Nombre empleado", c.nombre AS "Nombre cliente", (lp.cantidad*lp.precioVenta) AS "Total línea"
 FROM lineasPedido lp JOIN pedidos p USING(CodPedido)
 JOIN clientes c USING (CodCliente) JOIN empleados e ON c.codRepresentante=e.codEmpleado
 WHERE (lp.cantidad*lp.precioVenta)>150;
@@ -53,4 +53,28 @@ WHERE e.codEmpleado=codrepresentante);
 ## ocho ejercicio clase
 SELECT *
 FROM lienaspedido
-WHERE (cantidad*precioVenta)>5000
+WHERE (cantidad*precioVenta)>5000;
+
+## ejemplos 
+
+SELECT MAX(sueldo)
+FROM empleados;
+
+SELECT *
+FROM empleados
+WHERE sueldo IN(SELECT MAX(sueldo) FROM empleados);
+
+SELECT *
+FROM empleados
+WHERE sueldo=(SELECT MAX(sueldo) FROM empleados);
+
+SELECT e.nombre, e.fecNacimiento, e.oficina, (SELECT MAX(sueldo) FROM empleados)
+FROM empleados e;
+
+SELECT e.nombre, e.fecNacimiento, e.oficina,(SELECT region FROM oficinas WHERE
+CodOficina=e.oficina )
+FROM empleados e;
+
+SELECT e.nombre, e.fecnacimiento, e.oficina, (SELECT region FROM oficinas WHERE
+CodOficina=e.oficina )
+FROM empleados e JOIN oficinas o ON e.oficina=o.codOficina; 
