@@ -184,7 +184,7 @@ WHERE e.sueldo > jefes.sueldo;
 SELECT DISTINCT codEmpleado, nombre, objetivo, cantidad* precioVenta as Importe
 FROM LineasPedido l JOIN Pedidos p USING (codPedido)
 JOIN Empleados ON codRepresentante= codEmpleado
-WHERE objetivo > 200000 AND cantidad * precioVenta >5000 
+WHERE objetivo > 200000 or cantidad * precioVenta >5000 
 group by codRepresentante;
 
 
@@ -233,3 +233,18 @@ WHERE codPedido IS NULL;
 
 #13) Seleccionar los representantes que no han realizado ninguna venta, indicando el nombre del
 #empleado.
+
+
+
+/*otra cosa*/
+
+
+select *
+from empleados
+where sueldo=(select max(sueldo)
+from empleados)
+
+
+select e.nombre,e.fecNacimiento,e.oficina, o.region
+from empleados e left Join oficinas o on e.oficina= o.codOficina;
+
