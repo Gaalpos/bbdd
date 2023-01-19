@@ -1,0 +1,1 @@
+select * from Productos  where idFabricante = "aci" order by precioCompra desc, existencias asc
