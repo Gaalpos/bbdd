@@ -248,3 +248,18 @@ from empleados)
 select e.nombre,e.fecNacimiento,e.oficina, o.region
 from empleados e left Join oficinas o on e.oficina= o.codOficina;
 
+
+
+
+/*SUBCONSULTAS*/
+/*1*/
+select Nombre
+from clientes
+where codRepresentante=(select codEmpleado from empleados where Nombre="García Gómez, Luis Antonio");
+
+/*2*/
+select codEmpleado,Nombre
+from empleados
+where oficina in (select codOficina from oficinas where objetivo>ventas);
+
+/*3*/
