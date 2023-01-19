@@ -78,3 +78,5 @@ FROM empleados e;
 SELECT e.nombre, e.fecnacimiento, e.oficina, (SELECT region FROM oficinas WHERE
 CodOficina=e.oficina )
 FROM empleados e JOIN oficinas o ON e.oficina=o.codOficina; 
+
+
