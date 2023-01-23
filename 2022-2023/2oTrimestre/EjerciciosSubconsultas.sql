@@ -27,9 +27,13 @@ select codEmpleado, nombre
 from empleados 
 where oficina in (select codOficina from oficinas where objetivo>ventas);
 
-select p.codPedido, sum(lp.cantidad*lp.precioVenta)
-from lineaspedido lp join pedidos p on lp.codPedido=p.codPedido join empleados e on p.codRepresentante=e.codEmpleado
-group by p.codPedido;
+#select p.codPedido, sum(lp.cantidad*lp.precioVenta)
+#from lineaspedido lp join pedidos p on lp.codPedido=p.codPedido join empleados e on p.codRepresentante=e.codEmpleado
+#group by p.codPedido;
+
+select  *
+from lineaspedido lp;
+
 
 
 #3) Listar los vendedores que no trabajan en oficinas dirigidas por el empleado 108.
@@ -41,10 +45,52 @@ where oficina in (select codOficina from oficinas where objetivo>ventas);
 
 #4) Listar los productos (idfabricante, idproducto y descripción) para los cuales no se ha recibido
 #ningún pedido de 500 € o más.
+
+select  codPedido, numLinea, (Cantidad*precioVenta)
+from lineaspedido
+group by codPedido, numLinea;
+
+select  codPedido, producto
+from lineaspedido
+where (cantidad*precioVenta) < 500;
+
+
+select  idFabricante, idProducto, descripcion
+from productos
+where idProducto not in (select distinct producto from lineaspedido where (cantidad*precioVenta)> 500);
+
+
+
+# select idproducto, idFabricante, descripcion
+#from lineaspedido
+#group by producto
+#having total > 20000 
+#order by 2;
+
+
+
+
+
+
+
 #5) Listar los clientes asignados a García Gómez, Luis Antonio que no han remitido un pedido
 #superior a 5.000 €.
+select p.codCliente,p.codPedido, sum(cantidad*precioVenta) total
+from pedidos p join lineaspedido lp on p.codPedido=lp.codPedido
+group by p.codCliente, p.codPedido;
+
+
+select codCliente
+from clientes
+where codRepresentante=(select codEmpleado from empleados where nombre =  "García Gómez, Luis Antonio") and codCliente in (select distinct p.codCliente
+from pedidos p join lineaspedido lp on p.codPedido=lp.codPedido group by p.codCliente=p.codPedido having
+sum(cantidad*precioVenta)>5000);
+
+
 #6) Listar las oficinas en donde haya un vendedor cuyas ventas representen más del 55% del objetivo
 #de su oficina.
+
+
 #7) Listar las oficinas en donde todos los vendedores tienen sueldos que superan al 50% del objetivo
 #de la oficina.
 #8) Listar las oficinas que tengan un objetivo mayor que la suma de los objetivos de sus vendedores.

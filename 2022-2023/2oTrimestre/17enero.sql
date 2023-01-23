@@ -12,7 +12,6 @@ where sueldo in (1000,2000,3000,4000);  # where sueldo = 1000 or sueldo= 2000 or
 
 
 # consulta sin sentido
-<<<<<<< HEAD
 select nombre, e.fecNacimiento, e.oficina, (select region from oficinas where codOficina=e.oficina)
 from empleados e;   
 
@@ -39,8 +38,4 @@ where e.nombre="Garcia Gómez, Luis Antonio";
 
 
 
-=======
-select nombre, e.fecNacimiento, e.oficina, (select max(sueldo) from empleados)
-from empleados e;
->>>>>>> 080a1b863d50a9a95f5aa4fed53ca5be3229c46b
 
