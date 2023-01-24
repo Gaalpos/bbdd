@@ -57,17 +57,36 @@ SUM(cantidad*precioVenta)>5000);
 ## hacer la consulta con JOINS
 SELECT codCliente, nombre
 FROM clientes
-WHERE codRepresetante
+WHERE codRepresetante;
 
 /*6) Listar las oficinas en donde haya un vendedor cuyas ventas representen más del 55% del objetivo
 de su oficina.*/
-
+SELECT e.codEmpleado, SUM(lp.cantidad*lp.precioVenta) AS "Total vendedor" ,ROUND
+((o.objetivo*0.55),2) AS 55OBJETIVO 
+FROM empleados e JOIN pedidos p ON e.codEmpleado=p.codRepresentante
+JOIN lineaspedido lp  USING (codPedido)
+JOIN oficinas o ON e.oficina=o.codOficina
+GROUP BY e.codEmpleado HAVING SUM(lp.cantidad*lp.precioVenta)>55OBJETIVO;
 
 /*7) Listar las oficinas en donde todos los vendedores tienen sueldos que superan al 50% del objetivo
 de la oficina.*/
+SELECT e.codEmpleado, e.sueldo, (o.objetivo*0.5) AS mitad_objetivo
+FROM empleados e JOIN oficinas o ON e.oficina= o.codOficina
+WHERE o.objetivo IS NOT NULL AND e.sueldo>(o.objetivo*0.5);
+
+SELECT CodOficina, ciudad
+FROM oficinas
+WHERE (objetivo * 0.5) < (SELECT MIN(sueldo) FROM empleados WHERE 
+empleados.oficina=oficina.CodOficina); 
 
 
-/*8) Listar las oficinas que tengan un objetivo mayor que la suma de los objetivos de sus vendedores.*/
+/*8) Listar las oficinas que tengan un objetivo mayor que la suma
+ de los objetivos de sus vendedores.*/
+ SELECT *
+ FROM oficinas
+ WHERE
+ WHERE
+ 
 
 
 /*9) Listar las oficinas que tengan un objetivo mayor que la suma de los objetivos de sus vendedores.*/
