@@ -82,10 +82,11 @@ empleados.oficina=oficina.CodOficina);
 
 /*8) Listar las oficinas que tengan un objetivo mayor que la suma
  de los objetivos de sus vendedores.*/
- SELECT *
- FROM oficinas
- WHERE
- WHERE
+ SELECT codPedido, SUM(cantidad*precioVenta)
+ FROM lineaspedido
+ GROUP BY codPedido
+ HAVING SUM(cantidad*precioVenta)>1000
+ 
  
 
 
