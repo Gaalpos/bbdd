@@ -18,7 +18,13 @@
     FROM empleados;
     
     SELECT nombre,sueldo,(sueldo*1.2),(((sueldo*1.2)/sueldo)*100)-100
-    FROM epleados
+    FROM epleados;
+    
+    SELECT MONTHNAME(NOW())
+    FROM DUAL;
+    
+	SELECT WEEK('1998-02-20'), WEEK('1998-02-20',0), WEEK('1998-02-20',1), 
+	WEEK('1998-12-31',1),YEAR('2000-01-01'), WEEK('2000-01-01',0);
     
     
     

@@ -85,21 +85,39 @@ empleados.oficina=oficina.CodOficina);
  SELECT codPedido, SUM(cantidad*precioVenta)
  FROM lineaspedido
  GROUP BY codPedido
- HAVING SUM(cantidad*precioVenta)>1000
+ HAVING SUM(cantidad*precioVenta)>1000;
  
- 
-
 
 /*9) Listar las oficinas que tengan un objetivo mayor que la suma de los objetivos de sus vendedores.*/
-
+SELECT o.codOficina, o.ciudad, o.objetivo
+FROM oficinas o
+WHERE o.objetivo > (SELECT SUM(objetivo) FROM empleados WHERE oficina=o.codOficina);
 
 /*10) Hallar cuántos pedidos (total de cada pedido) hay de más de 1800 €.*/
+SELECT p.codPedido
+FROM pedidos p
+WHERE (SELECT SUM(producto*cantidad) FROM lineaspedido WHERE codPedido=p.codPedido)>1800;
 
+SELECT SUM(precioVenta*cantidad)
+FROM lineaspedido
+WHERE codPedido=48;
+
+SELECT COUNT(*) FROM(
+SELECT p.codpedido, SUM(lp.cantidad*lp.precioVenta)
+FROM pedidos p JOIN lineaspedido lp USING(codPedido)
+GROUP BY p.codPedido
+HAVING SUM(lp.cantidad*lp.precioVenta)>1800) a;
 
 /*11) Saber cuántas oficinas tienen empleados con ventas superiores a su objetivo, no queremos saber
 cuáles sino cuántas hay.*/
+SELECT COUNT(*)
+FROM oficinas o
+WHERE o.objetivo<(SELECT SUM(lp.cantidad*lp.precioVenta) FROM empleados e JOIN pedidos p ON p.codRepresentante=e.codEmpleado JOIN lineaspedido lp USING(codPedido) WHERE e.oficina=o.codOficina);
 
-
+SELECT e.codEmpleado, e.oficina, SUM(lp.cantidad*lp.precioVenta), o.objetivo
+FROM oficinas o JOIN empleados e ON e.oficina=o.codOficina JOIN pedidos p ON e.codEmpleado=p.codRepresentante JOIN lineaspedido
+GROUP BY e.oficinas
+HAVING SUM(lp.cantidad*lp.precioVenta) > o.objetivo
 /*12) Listar las oficinas en donde todos los vendedores tienen ventas que superan al 50% del objetivo
 de la oficina.*/
 
