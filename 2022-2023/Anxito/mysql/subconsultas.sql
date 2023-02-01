@@ -117,13 +117,25 @@ WHERE o.objetivo<(SELECT SUM(lp.cantidad*lp.precioVenta) FROM empleados e JOIN p
 SELECT e.codEmpleado, e.oficina, SUM(lp.cantidad*lp.precioVenta), o.objetivo
 FROM oficinas o JOIN empleados e ON e.oficina=o.codOficina JOIN pedidos p ON e.codEmpleado=p.codRepresentante JOIN lineaspedido
 GROUP BY e.oficinas
-HAVING SUM(lp.cantidad*lp.precioVenta) > o.objetivo
+HAVING SUM(lp.cantidad*lp.precioVenta) > o.objetivo;
+
 /*12) Listar las oficinas en donde todos los vendedores tienen ventas que superan al 50% del objetivo
 de la oficina.*/
+SELECT e.oficina, SUM(lp.cantidad*lp.precioVenta)
+FROM empleados e JOIN pedidos p ON e.codEmpleado=p.codRepresentante JOIN lineaspedido lp
+GROUP BY e.oficina
+HAVING SUM(lp.cantidad*lp.precioVenta)>(SELECT objetivo FROM oficinas WHERE codOficina=e.oficina)/2;
 
+SELECT *
+FROM empleados;
 
 /*13) Seleccionar los pedidos, entendiendo por un pedido el Código del pedido y todas sus líneas, con
 un importe superior a 30.000€.*/
+SELECT p.codpedido, SUM(cantidad*precioVenta) TOTAL 
+FROM pedidos p JOIN lineaspedido USING(CodPedido)
+WHERE codPedido<>21
+GROUP BY p.codPedido
+HAVING SUM(cantidad*precioVenta)>30000
 
 
 /*14) Listar las oficinas que no tienen director.*/
