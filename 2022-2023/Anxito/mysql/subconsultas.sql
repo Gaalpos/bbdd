@@ -135,17 +135,49 @@ SELECT p.codpedido, SUM(cantidad*precioVenta) TOTAL
 FROM pedidos p JOIN lineaspedido USING(CodPedido)
 WHERE codPedido<>21
 GROUP BY p.codPedido
-HAVING SUM(cantidad*precioVenta)>30000
+HAVING SUM(cantidad*precioVenta)>30000;
 
 
 /*14) Listar las oficinas que no tienen director.*/
+SELECT o.codOficina
+FROM oficinas o
+WHERE NOT EXISTS (SELECT * FROM directores WHERE codOficna=o.codOficina);
+
+SELECT o.codOficina,d.idDirector
+FROM oficinas o LEFT JOIN directores d USING (codOficina)
+WHERE idDirector IS NULL;
+
+SELECT o.codOficina,d.idDirector
+FROM oficinas o RIGHT JOIN directores d USING (codOficina)
+WHERE o.codOficina IS NULL;
 
 
 /*15) Seleccionar los clientes que no han realizado ningún pedido.*/
+SELECT c.codCliente,c.nombre
+FROM clientes c
+WHERE NOT EXISTS (SELECT * FROM pedidos WHERE codCliente=c.codCliente);
+
+SELECT c.codCliente,c.nombre,p.codPedido
+FROM pedidos p RIGHT JOIN clientes c USING (codCliente)
+WHERE p.codPedido IS NULL;
 
 
 /*16) Seleccionar los productos que no han sido vendidos.*/
+SELECT p.idProducto, p.descripcion, p.existencias 
+FROM productos p
+WHERE (SELECT COUNT(*) FROM lineaspedido WHERE Producto=p.idProducto)=0;
 
+SELECT p.idProducto, p.descripcion
+FROM productos p LEFT JOIN lineaspedido lp ON p.idproducto=lp.producto
+WHERE lp.codPedido IS NULL;
 
 /*17) Seleccionar los representantes que no han realizado ninguna venta, indicando el nombre del
 empleado.*/
+SELECT origen.codigo,origen.nombre
+FROM (SELECT e.codEmpleado AS codigo,e.nomnbre  AS nombre, p.codPedido AS pedido
+FROM empleados e JOIN pedidos p ON p.codRepresentante=e.codEmpleado) AS origen 
+WHERE origen.pedido IS NULL;
+
+SELECT e.codEmpleado, e.nombre
+FROM empleados e LEFT JOIN pedidos p ON e.codEmpleado=p.codRepresentante
+WHERE p.codPedido IS NOT NULL;
