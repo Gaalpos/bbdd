@@ -42,3 +42,64 @@ FROM customer c JOIN rental r USING(customer_id) JOIN payment p USING(rental_id)
 GROUP BY c.customer_id
 ORDER BY 3 DESC
 LIMIT 10;
+
+#7
+
+SELECT fc.category_id AS "Código cateogría",ca.name AS "Categoría",COUNT(*) AS "Alquileres"
+FROM customer c JOIN address a USING(address_id) JOIN city ci USING(city_id) JOIN country co USING(country_id) JOIN rental r USING(customer_id) JOIN inventory i USING(inventory_id) JOIN film_category fc USING(film_id) JOIN category ca USING(category_id)
+WHERE co.country='SPAIN'
+GROUP BY fc.category_id
+ORDER BY 3 DESC;
+
+#8
+
+SELECT ac.actor_id,CONCAT(ac.first_name," ",ac.last_name) as "Nombre",COUNT(*) AS "Alquileres"
+FROM customer c JOIN address a USING(address_id) JOIN city ci USING(city_id) JOIN country co USING(country_id) JOIN rental r USING(customer_id) JOIN inventory i USING(inventory_id) JOIN film_actor fa USING(film_id) JOIN actor ac USING(actor_id)
+WHERE co.country='ARGENTINA'
+GROUP BY ac.actor_id
+ORDER BY 3 DESC 
+LIMIT 10;
+
+#9
+
+SELECT f.title AS "Título",COUNT(*) AS "Alquileres"
+FROM actor a JOIN film_actor fa USING(actor_id) JOIN film f USING(film_id)  JOIN inventory i USING(film_id) JOIN rental r USING(inventory_id)
+WHERE a.first_name="SANDRA" AND a.last_name="KILMER"
+GROUP BY i.film_id
+ORDER BY 2 DESC
+LIMIT 1;
+
+#MEJORA DE LA CONSULTA PARA QUE SAQUE PELÍCULAS CON EL MISMO NÚMERO DE ALQUILERES
+
+
+SELECT f.title AS "Título",COUNT(*) AS "Alquileres"
+FROM actor a JOIN film_actor fa USING(actor_id) JOIN film f USING(film_id)  JOIN inventory i USING(film_id) JOIN rental r USING(inventory_id)
+WHERE a.first_name="SANDRA" AND a.last_name="KILMER"
+GROUP BY i.film_id
+HAVING COUNT(*)=(SELECT COUNT(*)
+FROM actor a JOIN film_actor fa USING(actor_id)   JOIN inventory i USING(film_id) JOIN rental r USING(inventory_id)
+WHERE a.first_name="SANDRA" AND a.last_name="KILMER"
+GROUP BY i.film_id
+ORDER BY 1 DESC
+LIMIT 1)
+ORDER BY 2 DESC;
+
+#10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
