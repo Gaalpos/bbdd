@@ -84,8 +84,34 @@ ORDER BY 1 DESC
 LIMIT 1)
 ORDER BY 2 DESC;
 
-#10
+#10-11
+SELECT AVG(peliculas.duracion) AS "Duracion media alquiladas"
+FROM
+(SELECT DISTINCT(f.film_id), f.length AS "duracion"
+FROM rental r JOIN inventory i USING(inventory_id) JOIN film f USING(film_id)
+WHERE return_date IS NULL) peliculas;
 
+#12
+SELECT fc.category_id, COUNT(*) AS "Alquileres infantil"
+FROM rental r JOIN inventory i USING(inventory_id) JOIN film_category fc USING(film_id) JOIN category ca USING(category_id)
+WHERE ca.name="CHILDREN" AND YEAR(r.rental_date)=2005 AND MONTH(r.rental_date) IN (8,9)
+GROUP BY i.store_id
+ORDER BY 2 DESC;
+
+SELECT fc.category_id, COUNT(*) AS "Alquileres infantil"
+FROM rental r JOIN inventory i USING(inventory_id) JOIN film_category fc USING(film_id) JOIN category ca USING(category_id)
+WHERE ca.name="CHILDREN" AND r.rental_date BETWEEN '2005-08-01' AND '2005-09-30'
+GROUP BY i.store_id
+ORDER BY 2 DESC;
+
+SELECT i.store_id, COUNT(*)
+FROM inventory i
+GROUP BY i.store_id;
+
+#13
+
+SELECT s.staff_id, c.city,st.store_id
+FROM staff s JOIN address a USING(address_id) JOIN city cc USING(city_id) JOIN store st USING(store_id) JOIN address ad ON st.address_id=ad.address
 
 
 
