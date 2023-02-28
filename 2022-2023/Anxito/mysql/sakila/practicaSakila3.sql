@@ -39,4 +39,18 @@ GROUP BY  c.customer_id;
 
 SELECT customer_id AS cod_cliente,amount
 FROM payment p
-WHERE amount>(SELECT AVG(amount) FROM payment p2 WHERE p2.customer_id=p.customer_id)
+WHERE amount>(SELECT AVG(amount) FROM payment p2 WHERE p2.customer_id=p.customer_id);
+
+#29
+SELECT a2.actor_id, fa2.film_id
+FROM actor a2 JOIN  film_actor fa2 USING(actor_id);
+
+(SELECT fa.film_id AS idPeli
+FROM actor a JOIN film_actor fa USING(actor_id)
+WHERE first_name="Christopher" AND last_name="WEST") AS pelisAdam
+
+#35 35.	Clientes con más películas alquiladas que alguno de los clientes que empiezan por ‘A’
+SELECT 
+FROM 
+
+
