@@ -1,6 +1,21 @@
 #1  Actores que tienen de primer nombre ‘Scarlett’.
-SELECT f.film_id,f.title,COUNT(*)
-FROM customer c JOIN rental r USING(customer_id) JOIN inventory i USING(inventory_id) JOIN film f USING(film_id)
-WHERE first_name=''
+SELECT CONCAT(first_name," ",last_name) as nombre
+FROM actor
+where first_name='Scarlett' ;
 
 #2  Actores que tienen de apellido ‘Johansson’.
+SELECT CONCAT(last_name) as apellido
+FROM actor
+where last_name='Johansson' ;
+
+#3 Actores que contengan una ‘O’ en su nombre.
+SELECT CONCAT(first_name," ",last_name) as nombre
+FROM actor
+
+
+
+#5
+SELECT city
+FROM city
+WHERE city LIKE "% %"
+ 
