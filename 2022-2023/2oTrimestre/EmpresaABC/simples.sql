@@ -1,5 +1,5 @@
-
-/*
+/* Solución Ejercicios. Las consultas simples
+La lista de selección
 1) Obtener una lista de todos los productos indicando para cada uno su idfabricante, 
 idproducto, descripción, precio de compra, IVA y precio con I.V.A. incluido 
 (es el precio anterior aumentado en un 21%).
@@ -98,14 +98,9 @@ WHERE MONTH(fechaPedido) = 3 AND YEAR(CURDATE()) -1 = YEAR(FechaPedido);
 
 SELECT *
 FROM Pedidos
-WHERE MONTH(fechaPedido) = IF(MONTH(CURDATE())-1 = 0, 12, MONTH(CURDATE())-1) AND YEAR(FECHAPedido) = IF(MONTH(CURDATE())-1 = 0, yEAR(CURDATE())-1,  YEAR(CURDATE()));
-
-
-select *
-from pedidos where day() = ;
-
-
-
+WHERE MONTH(fechaPedido) = IF(MONTH(CURDATE())-1 = 0, 12, MONTH(CURDATE())-1)
+AND YEAR(FECHAPedido) = IF(MONTH(CURDATE())-1 = 0, yEAR(CURDATE())-1, 
+YEAR(CURDATE()));
 
 /*
 11) Listar los números de los empleados que tienen una oficina asignada.
@@ -162,35 +157,9 @@ WHERE idproducto LIKE '%x';
 comprendida entre 40 y 60 años.
 */
 
-select nombre, year(curdate()) - year(fecNacimiento) as edad
-from empleados
-where  year(curdate()) - year(fecNacimiento) between 40 and 60;
-
-
-/*
-16) Obtener toda la información de los empleados que lleven trabajando entre 20 y 35 años
-*/
-select nombre, year(curdate()) - year(fecNacimiento) as currando
-from empleados
-where year(curdate()) - year(fecNacimiento) between 20 and 35;
-
-
-
-
-## toda la informacion de los empleados que tengan  menos de 40 o mas que 50
-select nombre, year(curdate()) - year(fecNacimiento) as edad
-from empleados
-where  year(curdate()) - year(fecNacimiento) not between 40 and 50;
-
-
 SELECT nombre, fecNacimiento, YEAR(CURDATE()) - YEAR(FecNacimiento) AS EDAD
 FROM Empleados
 WHERE YEAR(CURDATE()) - YEAR(FecNacimiento) BETWEEN 40 AND 60;
-
-
-
-
-
 
 SELECT nombre, fecNacimiento, YEAR(CURDATE()) - YEAR(FecNacimiento) AS EDAD,
 YEAR(CURDATE()) - YEAR(FecNacimiento) - 
@@ -219,43 +188,10 @@ order by idFabricante, precioCompra desc;
 19) Listar todos los empleados que lleven trabajando más de 25 años en la empresa.
 */
 /*Tres formas de obtener los años*/
-select nombre, fecContrato, round(datediff(curdate(), fecContrato)/365),
- /**/ year (curdate())-year(fecContrato), /**/
+select nombre, fecContrato, round(datediff(curdate(), fecContrato)/365), /**/ year (curdate())-year(fecContrato), /**/
 year (curdate())- year(feccontrato)-if(right(fecContrato, 5) > right (curdate(),5), 1,0)  
 from empleados
 where datediff(curdate(), fecContrato)/365 >25;
-
-
-
-
-
-
-/*
-6) Obtener los pedidos ordenados por fecha de pedido.
-*/
-select *
-from pedidos 
-order by fechaPedido;
-
-
-
-
-
-
-
-
-
-
-
-/*
-19) Listar todos los empleados que lleven trabajando más de 25 años en la empresa.
-*/
-
-
-select  nombre, fecContrato, year (curdate()) -year(fecContrato) as tiempo
-from empleados
-where datediff(curdate(), fecContrato)/365 > 25;
-
 
 /*
 20) Listar todas las oficinas que no tengan marcado ningún objetivo.
@@ -267,24 +203,7 @@ where objetivo is null or objetivo = 0;
 /*
 21) Obtener el nombre de todos los empleados cuyo salario acumulado hasta la fecha actual no han llegado a cubrir el objetivo que tenían, además se deberá calcular el importe que les falta.
 */
-
-SELECT nombre, SUM(sueldo) as salarioTotal
-FROM empleados
-WHERE fecContrato <= GETDATE()
-GROUP BY nombre;
-
-
-select  nombre, (sueldo + ifnull(comision,0) * month(curdate())) as acumulado, objetivo, objetivo - (sueldo + ifnull(comision,0) * month(curdate()) ) as falta
-from empleados
-where (sueldo + ifnull(comision,0) * month(curdate()) ) < objetivo;
-
-
-
-
-# datediff(month, curdate() , fecContrato ) as diferencia
-
-
-
+/*select nombre, sueldo +if(comision, 0=
 /*
 /*
 22) Obtener el nombre del empleado, sueldo, comisión, sueldo bruto (sueldo + comisión), el importe de las retenciones tanto del IRPF como de la S.S., y el sueldo neto (sueldo bruto – las retenciones).
@@ -296,13 +215,3 @@ sueldo + ifnull(comision,0)*retencionesIRPF "IRPF",
 (sueldo+ifnull(comision,0))-((sueldo+ifnull(comision,0))*retencionesIRPF)-
 ((sueldo+ifnull(comision,0))*retencionesSS) as "Sueldo Neto"
 from Empleados;
-
-
-
-/*
-10) Listar los pedidos del mes pasado.
-*/
-
-select *
-from pedidos
-where month(fechaPedido) = month(curdate()-1);
