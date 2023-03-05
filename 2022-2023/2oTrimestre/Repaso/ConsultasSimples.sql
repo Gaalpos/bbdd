@@ -198,12 +198,15 @@ where objetivo is null;
 21) Obtener el nombre de todos los empleados cuyo salario acumulado hasta la fecha actual no han
 llegado a cubrir el objetivo que tenían, además se deberá calcular el importe que les falta.
 */
-select *
-from empleados;
-
+select nombre ,(sueldo + ifnull(comision,0)) * month(curdate()) as acumulado, objetivo, objetivo - (sueldo + ifnull(comision,0)) * month(curdate()) as Falta
+from empleados
+where (sueldo + ifnull(comision,0)) * month(curdate())  < objetivo;
 
 
 /*
 22) Obtener el nombre del empleado, sueldo, comisión, sueldo bruto (sueldo + comisión), el importe
 de las retenciones tanto del IRPF como de la S.S., y el sueldo neto (sueldo bruto – las retenciones).
 */
+
+select nombre, sueldo, comision, sueldo + ifnull(comision, 0) as sueldoBruto, retencionesIRPF, retencionesSS, (sueldo + ifnull(comision, 0)) - (retencionesIRPF + retencionesSS) as sueldoNeto
+from empleados;
