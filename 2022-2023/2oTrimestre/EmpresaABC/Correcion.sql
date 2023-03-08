@@ -145,7 +145,7 @@ from oficinas left join empleados on codoficina = oficina;
 select empleados.*, ciudad, region
 from empleados right join oficinas on codoficina = oficina;
 
-
+ 
 
 ## 2
 ### Producto cartesiano
