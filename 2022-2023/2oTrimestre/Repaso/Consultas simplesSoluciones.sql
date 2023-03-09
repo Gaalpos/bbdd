@@ -99,7 +99,8 @@ order by importe limit 5;
 #9) Listar toda la información de los pedidos de marzo del último año.
 select * 
 from pedidos 
-where month(fechapedido) = 3 and year(fechaPedido) = year (curdate() -1);
+where month(fechapedido) = 2 and year(fechaPedido) = year (curdate() -1);
+
 
 
 #10) Listar los pedidos del mes pasado.
