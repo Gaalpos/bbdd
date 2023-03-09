@@ -6,8 +6,8 @@ where
 	first_name='Scarlett' ;
 
 #2  Actores que tienen de apellido ‘Johansson’.
-SELECT
-	CONCAT(last_name) as apellido
+SELECT *
+	
 FROM 
 	actor
 where 
