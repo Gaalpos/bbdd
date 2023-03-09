@@ -62,3 +62,8 @@ where idProducto like '%x';
 #mont
 select nombre, (sueldo + ifnull(comision,0) * month(curdate()))  as SueldoAcumulado
 from empleados;
+
+#########
+
+# 3 PRIMERAS LETRAS
+# substring(ProductName,1,3)
