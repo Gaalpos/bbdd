@@ -73,7 +73,7 @@ from employees;
 9- Realiza una consulta que permita presentar el nombre y apellidos de los
 empleados que tengan más de 40 años
 */
-select Firstname, LastName, timestampdiff(year+, BirthDate, curdate()) as Edad
+select Firstname, LastName, timestampdiff(year, BirthDate, curdate()) as Edad
 from employees 
 where timestampdiff(year, BirthDate, curdate()) > 40;
 
@@ -100,7 +100,7 @@ faxes con su respectiva cantidad
 13- Realiza una consulta que permita presentar el nombre del cliente, el fax y el país
 al que pertenece
 */
-*/
+
 
 /*
 14- Realiza una consulta que muestre la mayor edad, la menor edad y la edad
