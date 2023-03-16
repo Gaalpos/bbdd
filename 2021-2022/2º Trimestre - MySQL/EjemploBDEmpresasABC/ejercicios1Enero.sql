@@ -76,7 +76,7 @@ and pedidos.codCliente= clientes.codCliente;
 /*
 6) Hallar los empleados que realizaron su primer pedido el mismo día en que fueron contratados.
 */
-select nombre , fechapedido, fechacontrato
+select nombre , fechapedido, feccontrato
 from pedidos join empleados on codRepresentante=codempleado
 where fecContrato = fechaPedido;
 

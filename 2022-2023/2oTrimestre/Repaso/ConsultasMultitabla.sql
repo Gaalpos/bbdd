@@ -34,13 +34,17 @@ su director.
 5) Listar las líneas de pedido superiores a 150 €, incluyendo el nombre del empleado que tomó el
 pedido y el nombre del cliente que lo solicitó.
 */
-
+select CodPedido, Cantidad * PrecioVenta as Precio, Nombre
+from LineasPedido join Pedidos join Empleados
+where Cantidad * PrecioVenta >150;
 
 
 /*
 6) Hallar los empleados que realizaron su primer pedido el mismo día en que fueron contratados.
 */
-
+select nombre, fecContrato, fechapedido
+from empleados join Pedidos
+where fecContrato = fechaPedido;
 /*
 7) Listar los empleados con un sueldo superior al de su jefe; para cada empleado sacar sus datos y el
 número, nombre y sueldo de su jefe.

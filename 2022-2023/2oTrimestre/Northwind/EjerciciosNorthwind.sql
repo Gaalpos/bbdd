@@ -34,6 +34,7 @@ WHERE UnitPrice BETWEEN 18.00 AND 20.00;
 /*
 4- Realiza una consulta que permita presentar la fecha actual mediante una función
 */
+SELECT CURDATE();
 
 /*
 5- Realiza una consulta que permita presentar los apellidos de los empleados en
@@ -73,7 +74,7 @@ from employees;
 9- Realiza una consulta que permita presentar el nombre y apellidos de los
 empleados que tengan más de 40 años
 */
-select Firstname, LastName, timestampdiff(year+, BirthDate, curdate()) as Edad
+select Firstname, LastName, timestampdiff(year, BirthDate, curdate()) as Edad
 from employees 
 where timestampdiff(year, BirthDate, curdate()) > 40;
 
@@ -81,12 +82,20 @@ where timestampdiff(year, BirthDate, curdate()) > 40;
 /*
 10- Realiza una consulta que permita presentar el número de fax que tiene cada país
 */
-
+## aqui entendi que se referia al prefijo en especifico de cada pais, no al numero de faxes
+# esperaba un +34 para sapin por ejemplo
+select country, count(fax) as fax
+from customers
+group by country;
 
 /*
 11- Realiza una consulta que permita presentar el máximo, mínimo y el promedio de
 años que llevan en la empresa los empleados
 */
+select HireDate, timestampdiff(year, Hiredate, curdate()) as tiempo
+from employees
+order by tiempo asc
+limit 1;
 
 
 
