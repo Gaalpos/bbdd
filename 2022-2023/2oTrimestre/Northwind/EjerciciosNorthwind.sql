@@ -109,7 +109,7 @@ faxes con su respectiva cantidad
 13- Realiza una consulta que permita presentar el nombre del cliente, el fax y el país
 al que pertenece
 */
-*/
+
 
 /*
 14- Realiza una consulta que muestre la mayor edad, la menor edad y la edad
