@@ -19,12 +19,13 @@ public class Principal {
 			 conexion = DriverManager.getConnection(url,"root", "1234");
 			 
 			 System.out.println("Conexion establecida");
-			 /*
-			 Statement s = con.createStatement();
+			 
+			 Statement s = conexion.createStatement();
 			 s.execute("USE sakila");
 			 
 			 ResultSet result=s.executeQuery("select * from film");
-			 */
+			 
+			 System.out.println(result);
 			
 		} catch (SQLException e) {
 			System.out.println(" no ha funcionado");
